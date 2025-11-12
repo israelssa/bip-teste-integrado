@@ -1,0 +1,65 @@
+<div class="versao-check">
+  <h2>🔒 Controle de Concorrência</h2>
+  
+  <div class="tabs">
+    <button mat-button (click)="abaAtiva = 'versao'" [class.active]="abaAtiva === 'versao'">Obter Versão</button>
+    <button mat-button (click)="abaAtiva = 'conflito'" [class.active]="abaAtiva === 'conflito'">Verificar Conflito</button>
+  </div>
+
+  <div *ngIf="abaAtiva === 'versao'" class="tab-content">
+    <form [formGroup]="versaoForm" (ngSubmit)="obterVersao()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>ID do Benefício</mat-label>
+        <input matInput type="number" formControlName="beneficioId" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="!versaoForm.valid || carregandoVersao">
+        {{ carregandoVersao ? 'Obtendo...' : 'Obter Versão' }}
+      </button>
+    </form>
+
+    <div *ngIf="resultadoVersao" class="resultado" [class.success]="resultadoVersao.success">
+      <div *ngIf="resultadoVersao.success" class="versao-info">
+        <h4>Versão do Benefício #{{ resultadoVersao.beneficioId }}</h4>
+        <div class="versao-numero">v{{ resultadoVersao.versao }}</div>
+      </div>
+      <div *ngIf="!resultadoVersao.success" class="erro">
+        {{ resultadoVersao.message }}
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="abaAtiva === 'conflito'" class="tab-content">
+    <form [formGroup]="conflitoForm" (ngSubmit)="verificarConflito()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>ID do Benefício</mat-label>
+        <input matInput type="number" formControlName="beneficioId" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Versão Atual (do Cliente)</mat-label>
+        <input matInput type="number" formControlName="versao" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="!conflitoForm.valid || carregandoConflito">
+        {{ carregandoConflito ? 'Verificando...' : 'Verificar Conflito' }}
+      </button>
+    </form>
+
+    <div *ngIf="resultadoConflito" class="resultado" [class.success]="!resultadoConflito.temConflito" [class.error]="resultadoConflito.temConflito">
+      <div *ngIf="resultadoConflito.success">
+        <h4>{{ resultadoConflito.temConflito ? '❌ Conflito Detectado' : '✅ Sem Conflitos' }}</h4>
+        <p>Versão informada: v{{ resultadoConflito.versaoInformada }}</p>
+        <p *ngIf="resultadoConflito.temConflito" class="warning">
+          ⚠️ Os dados foram modificados por outro usuário. Atualize antes de continuar.
+        </p>
+        <p *ngIf="!resultadoConflito.temConflito" class="success">
+          ✓ Versão atualizada. Pode prosseguir com a operação.
+        </p>
+      </div>
+      <div *ngIf="!resultadoConflito.success" class="erro">
+        {{ resultadoConflito.message }}
+      </div>
+    </div>
+  </div>
+</div>

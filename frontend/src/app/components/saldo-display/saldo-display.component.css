@@ -1,0 +1,87 @@
+.saldo-display {
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.resultado-consulta {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.resultado-consulta.success {
+  background: #e8f5e8;
+  border: 1px solid #c8e6c9;
+}
+
+.resultado-consulta.error {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+}
+
+.saldo-info h3 {
+  margin: 0 0 15px 0;
+  color: #2e7d32;
+}
+
+.saldo-valor {
+  font-size: 2em;
+  font-weight: bold;
+  color: #2e7d32;
+  margin: 10px 0;
+}
+
+.consulta-time {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.erro-consulta h3 {
+  margin: 0 0 10px 0;
+  color: #c62828;
+}
+
+.historico {
+  margin-top: 25px;
+}
+
+.historico h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.historico-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.historico-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+.beneficio-id {
+  font-weight: 500;
+  color: #333;
+}
+
+.saldo {
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.timestamp {
+  color: #666;
+  font-size: 0.8em;
+}

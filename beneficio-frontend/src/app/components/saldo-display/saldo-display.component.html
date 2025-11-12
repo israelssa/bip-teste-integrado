@@ -1,0 +1,49 @@
+<div class="saldo-display">
+  <h2>💰 Consultar Saldo</h2>
+  
+  <form [formGroup]="consultaForm" (ngSubmit)="consultarSaldo()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>ID do Benefício</mat-label>
+      <input matInput type="number" formControlName="beneficioId" required>
+      @if (consultaForm.get('beneficioId')?.hasError('required')) {
+        <mat-error>Informe o ID do benefício</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!consultaForm.valid || carregando">
+      {{ carregando ? 'Consultando...' : 'Consultar Saldo' }}
+    </button>
+  </form>
+
+  @if (resultadoConsulta) {
+    <div class="resultado-consulta" [class.success]="resultadoConsulta.success" [class.error]="!resultadoConsulta.success">
+      @if (resultadoConsulta.success) {
+        <div class="saldo-info">
+          <h3>Saldo do Benefício #{{ resultadoConsulta.beneficioId }}</h3>
+          <div class="saldo-valor">R$ {{ formatarNumero(resultadoConsulta.saldo) }}</div>
+          <div class="consulta-time">Consultado em: {{ formatarData(resultadoConsulta.timestamp) }}</div>
+        </div>
+      } @else {
+        <div class="erro-consulta">
+          <h3>❌ Erro na Consulta</h3>
+          <p>{{ resultadoConsulta.message }}</p>
+        </div>
+      }
+    </div>
+  }
+
+  @if (historicoConsultas.length > 0) {
+    <div class="historico">
+      <h3>📊 Histórico de Consultas</h3>
+      <div class="historico-list">
+        @for (consulta of historicoConsultas; track consulta.timestamp) {
+          <div class="historico-item">
+            <span class="beneficio-id">#{{ consulta.beneficioId }}</span>
+            <span class="saldo">R$ {{ formatarNumero(consulta.saldo) }}</span>
+            <span class="timestamp">{{ formatarHora(consulta.timestamp) }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

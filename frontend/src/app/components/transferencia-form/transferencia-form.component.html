@@ -1,0 +1,62 @@
+<div class="transferencia-form">
+  <h2>💸 Realizar Transferência</h2>
+
+  <form [formGroup]="transferenciaForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Benefício de Origem</mat-label>
+        <mat-select formControlName="fromId" required>
+          @for (beneficio of beneficiosAtivos; track beneficio.id) {
+            <mat-option [value]="beneficio.id">
+              {{ beneficio.nome }} (R$ {{ formatarNumero(beneficio.valor) }})
+            </mat-option>
+          }
+        </mat-select>
+        @if (transferenciaForm.get('fromId')?.hasError('required')) {
+          <mat-error>Selecione o benefício de origem</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Benefício de Destino</mat-label>
+        <mat-select formControlName="toId" required>
+          @for (beneficio of beneficiosAtivos; track beneficio.id) {
+            <mat-option [value]="beneficio.id">
+              {{ beneficio.nome }} (R$ {{ formatarNumero(beneficio.valor) }})
+            </mat-option>
+          }
+        </mat-select>
+        @if (transferenciaForm.get('toId')?.hasError('required')) {
+          <mat-error>Selecione o benefício de destino</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Valor da Transferência</mat-label>
+      <input matInput type="number" formControlName="amount" min="0.01" step="0.01" required>
+      <span matPrefix>R$ &nbsp;</span>
+      @if (transferenciaForm.get('amount')?.hasError('required')) {
+        <mat-error>Informe o valor da transferência</mat-error>
+      }
+      @if (transferenciaForm.get('amount')?.hasError('min')) {
+        <mat-error>Valor mínimo: R$ 0.01</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="strategy-selection">
+      <h3>Estratégia de Locking:</h3>
+      <mat-radio-group formControlName="lockType" class="radio-group">
+        <mat-radio-button value="optimistic">Optimistic Locking</mat-radio-button>
+        <mat-radio-button value="pessimistic">Pessimistic Locking</mat-radio-button>
+        <mat-radio-button value="mixed">Mixed Locking</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!transferenciaForm.valid || processando" class="submit-btn">
+        {{ processando ? 'Processando...' : 'Realizar Transferência' }}
+      </button>
+    </div>
+  </form>
+</div>

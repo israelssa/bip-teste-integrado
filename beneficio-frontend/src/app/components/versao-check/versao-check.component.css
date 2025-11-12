@@ -1,0 +1,84 @@
+.versao-check {
+  height: 100%;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tabs button.active {
+  border-bottom-color: #667eea;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.tabs button:hover:not(.active) {
+  background: #f5f5f5;
+}
+
+.tab-content {
+  padding: 10px 0;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.resultado {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.resultado.success {
+  background: #e8f5e8;
+  border: 1px solid #c8e6c9;
+}
+
+.resultado.error {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+}
+
+.versao-info h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.versao-numero {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #667eea;
+  font-family: 'Courier New', monospace;
+}
+
+.erro {
+  color: #c62828;
+  font-weight: 500;
+}
+
+.warning {
+  color: #f57c00;
+  font-weight: 500;
+  background: #fff3e0;
+  padding: 8px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.success {
+  color: #2e7d32;
+  font-weight: 500;
+}
