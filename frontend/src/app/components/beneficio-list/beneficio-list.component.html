@@ -1,0 +1,88 @@
+<div class="beneficio-list">
+  <h2>📋 Lista de Benefícios</h2>
+  
+  <div class="controls">
+    <button mat-raised-button color="primary" (click)="carregarBeneficios()" [disabled]="carregando">
+      🔄 Atualizar Lista
+    </button>
+    
+    <div class="stats">
+      <span class="stat-item">Total: {{ beneficios.length }}</span>
+      <span class="stat-item">Ativos: {{ beneficiosAtivos }}</span>
+      <span class="stat-item">Inativos: {{ beneficiosInativos }}</span>
+    </div>
+  </div>
+
+  @if (carregando) {
+    <div class="loading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Carregando benefícios...</span>
+    </div>
+  }
+
+  @if (erro) {
+    <div class="error">
+      ❌ {{ erro }}
+    </div>
+  }
+
+  <div class="table-container">
+    <table mat-table [dataSource]="beneficios" class="mat-elevation-z2">
+      
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let beneficio">{{ beneficio.id }}</td>
+      </ng-container>
+
+      <!-- Nome Column -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let beneficio">{{ beneficio.nome }}</td>
+      </ng-container>
+
+      <!-- Descrição Column -->
+      <ng-container matColumnDef="descricao">
+        <th mat-header-cell *matHeaderCellDef>Descrição</th>
+        <td mat-cell *matCellDef="let beneficio">{{ beneficio.descricao }}</td>
+      </ng-container>
+
+      <!-- Saldo Column -->
+      <ng-container matColumnDef="saldo">
+        <th mat-header-cell *matHeaderCellDef>Saldo</th>
+        <td mat-cell *matCellDef="let beneficio" 
+            [class.positive]="beneficio.valor > 0"
+            [class.negative]="beneficio.valor <= 0">
+          R$ {{ beneficio.valor }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let beneficio">
+          <span [class.active]="beneficio.ativo" [class.inactive]="!beneficio.ativo" class="status-badge">
+            {{ beneficio.ativo ? '✅ Ativo' : '❌ Inativo' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Versão Column -->
+      <ng-container matColumnDef="versao">
+        <th mat-header-cell *matHeaderCellDef>Versão</th>
+        <td mat-cell *matCellDef="let beneficio" class="version">
+          v{{ beneficio.version }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  @if (beneficios.length === 0 && !carregando) {
+    <div class="empty-state">
+      📝 Nenhum benefício cadastrado
+    </div>
+  }
+</div>
